@@ -33,11 +33,148 @@ Currently, Sprint.ly sends out four models: `Item`, `Comment`, `Favorite`, and `
 
 ### `Item`
 
+```
+{
+    "attributes": {
+        "archived": false, 
+        "assigned_to": {
+            "created_at": "2011-06-07T21:10:52+00:00", 
+            "email": "joe@example.com", 
+            "first_name": "Joe", 
+            "id": 1111, 
+            "last_login": "2012-07-26T23:16:55+00:00", 
+            "last_name": "Stump"
+        }, 
+        "created_at": "2012-08-13T23:14:26+00:00", 
+        "created_by": {
+            "created_at": "2011-06-07T21:10:52+00:00", 
+            "email": "joe@example.com", 
+            "first_name": "Joe", 
+            "id": 1111, 
+            "last_login": "2012-07-26T23:16:55+00:00", 
+            "last_name": "Stump"
+        }, 
+        "description": "", 
+        "email": {
+            "discussion": "discussion-1111@example.com", 
+            "files": "files-1111@example.com"
+        }, 
+        "last_modified": "2012-08-13T23:14:27+00:00", 
+        "number": 1212, 
+        "product": {
+            "archived": false, 
+            "id": 1111, 
+            "name": "sprint.ly"
+        }, 
+        "score": "~", 
+        "short_url": "http://sprint.ly/i/1/116550/", 
+        "status": "backlog", 
+        "title": "As a user, I want outbound service hooks so that I will see new items announced in Campfire or HipChat.", 
+        "type": "story", 
+        "what": "outbound service hooks", 
+        "who": "user", 
+        "why": "I will see new items announced in Campfire or HipChat"
+    }, 
+    "model": "Item", 
+    "product": {
+        "admin": false, 
+        "archived": false, 
+        "created_at": "2011-06-07T21:44:36+00:00", 
+        "email": {
+            "backlog": "backlog-1111@example.com", 
+            "defects": "defects-1111@example.com", 
+            "stories": "stories-1111@example.com", 
+            "tasks": "tasks-1111@example.com", 
+            "tests": "tests-1111@example.com"
+        }, 
+        "id": 1111, 
+        "name": "sprint.ly"
+    }
+}
+```
+
 ### `Comment`
 
-### `Favorite`
+```
+{
+    "attributes": {
+        "body": "Hey guys, what's the status on this?", 
+        "created_at": "2012-08-13T23:21:52+00:00", 
+        "created_by": {
+            "created_at": "2011-06-07T21:10:52+00:00", 
+            "email": "joe@example.com", 
+            "first_name": "Joe", 
+            "id": 1111, 
+            "last_login": "2012-07-26T23:16:55+00:00", 
+            "last_name": "Stump"
+        }, 
+        "id": 1111, 
+        "item": {
+            "archived": false, 
+            "assigned_to": {
+                "created_at": "2012-01-06T23:07:20+00:00", 
+                "email": "craig@example.com", 
+                "first_name": "Craig", 
+                "id": 1111, 
+                "last_login": "2012-06-25T11:09:26+00:00", 
+                "last_name": "Pattison"
+            }, 
+            "created_at": "2012-06-23T21:24:40+00:00", 
+            "created_by": {
+                "created_at": "2011-06-07T21:10:52+00:00", 
+                "email": "joe@example.com", 
+                "first_name": "Joe", 
+                "id": 1111, 
+                "last_login": "2012-07-26T23:16:55+00:00", 
+                "last_name": "Stump"
+            }, 
+            "description": "Right now when the application is booting up we have a white spinner. Let's change the spinner to our running man that glows from black to blue and back again.", 
+            "email": {
+                "discussion": "discussion-1111@example.com", 
+                "files": "files-1111@example.com"
+            }, 
+            "last_modified": "2012-08-12T22:58:34+00:00", 
+            "number": 1212, 
+            "product": {
+                "archived": false, 
+                "id": 1111, 
+                "name": "sprint.ly"
+            }, 
+            "progress": {
+                "started_at": "2012-06-25T08:55:36+00:00"
+            }, 
+            "score": "M", 
+            "short_url": "http://sprint.ly/i/1/91594/", 
+            "status": "in-progress", 
+            "tags": [
+                "ios", 
+                "ipad"
+            ], 
+            "title": "Change the spinner to our glowing running man.", 
+            "type": "task"
+        }, 
+        "last_modified": "2012-08-13T23:21:52+00:00", 
+        "type": "comment"
+    }, 
+    "model": "Comment", 
+    "product": {
+        "admin": false, 
+        "archived": false, 
+        "created_at": "2011-06-07T21:44:36+00:00", 
+        "email": {
+            "backlog": "backlog-1111@example.com", 
+            "defects": "defects-1111@example.com", 
+            "stories": "stories-1111@example.com", 
+            "tasks": "tasks-1111@example.com", 
+            "tests": "tests-1111@example.com"
+        }, 
+        "id": 1111, 
+        "name": "sprint.ly"
+    }
+}
+```
 
-https://gist.github.com/3335179
+### `Favorite`
 
 ```
 {
@@ -119,8 +256,6 @@ https://gist.github.com/3335179
 
 ### `Block`
 
-https://gist.github.com/3335151
-
 ```
 {
     "attributes": {
@@ -177,7 +312,7 @@ https://gist.github.com/3335151
                 "first_name": "Craig", 
                 "id": 1111, 
                 "last_login": "2012-06-25T11:09:26+00:00", 
-                "last_name": "Merchant"
+                "last_name": "Pattison"
             }, 
             "created_at": "2012-06-23T21:24:40+00:00", 
             "created_by": {
