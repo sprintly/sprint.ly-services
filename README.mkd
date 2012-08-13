@@ -1,0 +1,242 @@
+## Overview
+
+This is the home of Sprint.ly's outbound service integration. If you've ever wished Sprint.ly would send notifications to another service, you're in the right place. All of our service integrations are open source so anyone can write a hook for their favorite service.
+
+## How it Works
+
+1. A user creates a new `Item`, `Comment`, `Favorite`, or `Block` on Sprint.ly.
+2. Sprint.ly loads up any enabled outbound services enabled for the given product.
+3. Sprint.ly loads each `Service` class passing in any configuration options set by the user.
+4. Sprint.ly runs the `Service.send()` method passing in a `payload` Python `dict`.
+4. `Service.send()` handles posting the outbound ping to the 3rd party service.
+
+## How to Contribute
+
+1. Fork this repository.
+2. Create a file in `sprint.ly-services/lookout/services/` named `YourService.py`.
+3. Create a class named `Service`.
+4. In your class's `__doc__` put `YourService` on the top line, a blank line, and then as much Markdown as you like for installation instructions.
+5. Send us a pull request with which options you need us to collect and what you wish them to be named.
+6. We'll review, merge, and deploy.
+
+## Payload
+
+When your `Service.send()` method is ran, Sprint.ly will pass a single argument, `payload`, to your method. This Python `dict` will have three keys in it: `product`, `attributes`, and `model`.
+
+* `product` (dict) The product that the model belongs to.
+* `attributes` (dict) A hash of the model's attributes.
+* `model` (enum) The name of the model. Will be one of: `Item`, `Comment`, `Favorite`, or `Block`.
+
+## Models
+
+Currently, Sprint.ly sends out four models: `Item`, `Comment`, `Favorite`, and `Block`. **NOTE:** Remember that Sprint.ly only calls your method when a new model is being created. We do not run every update through outbound services.
+
+### `Item`
+
+### `Comment`
+
+### `Favorite`
+
+https://gist.github.com/3335179
+
+```
+{
+    "attributes": {
+        "created_at": "2012-08-12T23:01:33+00:00", 
+        "id": 1111, 
+        "item": {
+            "archived": false, 
+            "assigned_to": {
+                "created_at": "2011-06-08T17:16:58+00:00", 
+                "email": "graham@example.com", 
+                "first_name": "Graham", 
+                "id": 1111, 
+                "last_login": "2012-07-18T00:06:37+00:00", 
+                "last_name": "Blache"
+            }, 
+            "created_at": "2012-05-09T01:16:25+00:00", 
+            "created_by": {
+                "created_at": "2011-06-07T21:10:52+00:00", 
+                "email": "joe@example.com", 
+                "first_name": "Joe", 
+                "id": 1111, 
+                "last_login": "2012-07-26T23:16:55+00:00", 
+                "last_name": "Stump"
+            }, 
+            "description": "", 
+            "email": {
+                "discussion": "discussion-1111@example.com", 
+                "files": "files-1111@example.com"
+            }, 
+            "last_modified": "2012-08-12T23:01:33+00:00", 
+            "number": 1111, 
+            "product": {
+                "archived": false, 
+                "id": 1111, 
+                "name": "sprint.ly"
+            }, 
+            "progress": {
+                "started_at": "2012-07-12T16:40:11+00:00"
+            }, 
+            "score": "XL", 
+            "short_url": "http://sprint.ly/i/1111/1111/", 
+            "status": "in-progress", 
+            "tags": [
+                "post-launch"
+            ], 
+            "title": "As a user, I want a global filter UI so that I can use filters on the dashboard and timelines.", 
+            "type": "story", 
+            "what": "a global filter UI", 
+            "who": "user", 
+            "why": "I can use filters on the dashboard and timelines"
+        }, 
+        "user": {
+            "created_at": "2011-06-07T21:10:52+00:00", 
+            "email": "joe@example.com", 
+            "first_name": "Joe", 
+            "id": 1111,
+            "last_login": "2012-07-26T23:16:55+00:00", 
+            "last_name": "Stump"
+        }
+    }, 
+    "model": "Favorite", 
+    "product": {
+        "admin": false, 
+        "archived": false, 
+        "created_at": "2011-06-07T21:44:36+00:00", 
+        "email": {
+            "backlog": "backlog-1111@example.com", 
+            "defects": "defects-1111@example.com", 
+            "stories": "stories-1111@example.com", 
+            "tasks": "tasks-1111@example.com", 
+            "tests": "tests-1111@example.com"
+        }, 
+        "id": 1111, 
+        "name": "sprint.ly"
+    }
+}
+```
+
+### `Block`
+
+https://gist.github.com/3335151
+
+```
+{
+    "attributes": {
+        "blocked": {
+            "archived": false, 
+            "assigned_to": {
+                "created_at": "2011-06-07T21:10:52+00:00", 
+                "email": "joe@example.com", 
+                "first_name": "Joe", 
+                "id": 1111,
+                "last_login": "2012-07-26T23:16:55+00:00", 
+                "last_name": "Stump"
+            }, 
+            "created_at": "2012-03-30T00:57:20+00:00", 
+            "created_by": {
+                "created_at": "2011-06-07T21:10:52+00:00", 
+                "email": "joe@example.com", 
+                "first_name": "Joe", 
+                "id": 1, 
+                "last_login": "2012-07-26T23:16:55+00:00", 
+                "last_name": "Stump"
+            }, 
+            "description": "Send out an email if the person's CC expires soon.", 
+            "email": {
+                "discussion": "discussion-1111@example.com", 
+                "files": "files-1111@example.com"
+            }, 
+            "last_modified": "2012-08-12T22:53:48+00:00", 
+            "number": 2222, 
+            "product": {
+                "archived": false, 
+                "id": 1111, 
+                "name": "sprint.ly"
+            }, 
+            "score": "M", 
+            "short_url": "http://sprint.ly/i/1111/1111/", 
+            "status": "backlog", 
+            "tags": [
+                "billing"
+            ], 
+            "title": "As a customer, I want to be notified before my CC expires so that I can update my billing details.", 
+            "type": "story", 
+            "what": "to be notified before my CC expires", 
+            "who": "customer", 
+            "why": "I can update my billing details"
+        }, 
+        "created_at": "2012-08-12T22:53:47+00:00", 
+        "id": 1111, 
+        "item": {
+            "archived": false, 
+            "assigned_to": {
+                "created_at": "2012-01-06T23:07:20+00:00", 
+                "email": "craig@example.com", 
+                "first_name": "Craig", 
+                "id": 1111, 
+                "last_login": "2012-06-25T11:09:26+00:00", 
+                "last_name": "Merchant"
+            }, 
+            "created_at": "2012-06-23T21:24:40+00:00", 
+            "created_by": {
+                "created_at": "2011-06-07T21:10:52+00:00", 
+                "email": "joe@example.com", 
+                "first_name": "Joe", 
+                "id": 1111, 
+                "last_login": "2012-07-26T23:16:55+00:00", 
+                "last_name": "Stump"
+            }, 
+            "description": "Right now when the application is booting up we have a white spinner. Let's change the spinner to our running man that glows from black to blue and back again.", 
+            "email": {
+                "discussion": "discussion-1111@example.com", 
+                "files": "files-1111@example.com"
+            }, 
+            "last_modified": "2012-08-12T22:53:48+00:00", 
+            "number": 2222, 
+            "product": {
+                "archived": false, 
+                "id": 1111, 
+                "name": "sprint.ly"
+            }, 
+            "progress": {
+                "started_at": "2012-06-25T08:55:36+00:00"
+            }, 
+            "score": "M", 
+            "short_url": "http://sprint.ly/i/1111/1111/", 
+            "status": "in-progress", 
+            "tags": [
+                "ios", 
+                "ipad"
+            ], 
+            "title": "Change the spinner to our glowing running man.", 
+            "type": "task"
+        }, 
+        "unblocked": false, 
+        "user": {
+            "created_at": "2011-06-07T21:10:52+00:00", 
+            "email": "joe@example.com", 
+            "first_name": "Joe", 
+            "id": 1111, 
+            "last_login": "2012-07-26T23:16:55+00:00", 
+            "last_name": "Stump"
+        }
+    }, 
+    "model": "Block", 
+    "product": {
+        "admin": false, 
+        "archived": false, 
+        "created_at": "2011-06-07T21:44:36+00:00", 
+        "email": {
+            "backlog": "backlog-1111@example.com", 
+            "defects": "defects-1111@example.com", 
+            "stories": "stories-1111@example.com", 
+            "tasks": "tasks-1111@example.com", 
+            "tests": "tests-1111@example.com"
+        }, 
+        "id": 1111, 
+        "name": "sprint.ly"
+    }
+}
+```
