@@ -6,7 +6,7 @@ Build-Depends: cdbs, debhelper (>= 6), python (>= 2.5), python-support, python-s
 Standards-Version: 3.8.3
 Homepage: https://github.com/sprintly/sprint.ly-services
 
-Package: python-django-ajax
+Package: python-lookout
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends}, python (>= 2.5), python-django (>= 1.2.0), python-decorator
 Description: Sprint.ly's outbound services integration.
