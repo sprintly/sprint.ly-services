@@ -30,7 +30,11 @@ def get_available_services():
             continue
 
         service_name = service_file.split('.')[0]
-        module = import_module('lookout.services.%s' % service_name)
-        services[service_name] = module.Service
+
+        try:
+            module = import_module('lookout.services.%s' % service_name)
+            services[service_name] = module.Service
+        except ImportError:
+            continue
 
     return services
