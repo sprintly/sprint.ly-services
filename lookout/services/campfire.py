@@ -5,7 +5,12 @@ class Service(ServiceBase):
     """
     Campfire
 
-    Send item activity to a Campfire chatroom.
+    This will send item events from Sprint.ly to your Campfire chat room. To install
+    the package follow the steps below:
+
+    1. `subdomain` is Campfire subdomain (e.g. `foobar` in `https://foobar.campfirenow.com`)
+    2. `room` is the actual name of the room from your Campfire Lobby. **NOTE:** it is not the ID of the room.
+    3. `token` is your API token. You can the "My info" link next to the "Settings" tab.
     """
     def send(self, payload):
         campfire = Campfire(self.options['subdomain'], self.options['token'])
