@@ -68,11 +68,13 @@ class Service(ServiceBase):
             return
 
         data = {
+            'auth_token': self.options['auth_token'],
+            'format': 'json',
             'room_id': self.options['room_id'],
             'from': 'Sprint.ly',
             'message': message,
             'message_format': 'text',
         }
 
-        url = 'https://api.hipchat.com/v1/rooms/message?format=json&auth_token=%s' % self.options['auth_token']
-        r = requets.post("https://api.hipchat.com/v1/rooms/message", data=data)
+        url = 'https://api.hipchat.com/v1/rooms/message'
+        r = requests.post("https://api.hipchat.com/v1/rooms/message", data=data)
