@@ -1,21 +1,17 @@
 from lookout.base import ServiceBase
-from pinder import Campfire, Room
+import requests
 
 class Service(ServiceBase):
     """
-    Campfire
+    HipChat 
 
-    This will send item events from Sprint.ly to your Campfire chat room. To install
+    This will send item events from Sprint.ly to your HipChat chat room. To install
     the package follow the steps below:
 
-    1. `subdomain` is Campfire subdomain (e.g. `foobar` in `https://foobar.campfirenow.com`)
-    2. `room` is the actual name of the room from your Campfire Lobby. **NOTE:** It is not the ID of the room.
-    3. `token` is your API token. You can the "My info" link next to the "Settings" tab.
+    1. `auth_token` is a valid HipChat API auth token. You can create an `auth_token` at `https://your-domain.hipchat.com/admin/api`.
+    2. `room_id` is the actual name of the room from your HipChat Lobby. **NOTE:** It is not the ID of the room.
     """
     def send(self, payload):
-        campfire = Campfire(self.options['subdomain'], self.options['token'])
-        room = campfire.find_room_by_name(self.options['room'])
-
         if payload['model'] == 'Comment':
             message = '%s %s. commented "%s" on %s "%s" (#%s) %s' % (
                 payload['attributes']['created_by']['first_name'],
@@ -71,5 +67,12 @@ class Service(ServiceBase):
         if not message:
             return
 
-        room.join()
-        result = room.speak(message)
+        data = {
+            'room_id': self.options['room_id'],
+            'from': 'Sprint.ly',
+            'message': message,
+            'message_format': 'text',
+        }
+
+        url = 'https://api.hipchat.com/v1/rooms/message?format=json&auth_token=%s' % self.options['auth_token']
+        r = requets.post("https://api.hipchat.com/v1/rooms/message", data=data)

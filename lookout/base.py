@@ -26,10 +26,13 @@ def get_available_services():
     path = '%s/services' % os.path.dirname(__file__)
     services = {}
     for service_file in os.listdir(path):
-        if service_file.endswith('.pyc') or service_file.startswith('__'):
+        if service_file.endswith('.pyc') or service_file.startswith('__') or \
+            service_file.startswith('.'):
             continue
 
         service_name = service_file.split('.')[0]
+        if not service_name:
+            continue
 
         try:
             module = import_module('lookout.services.%s' % service_name)
