@@ -16,7 +16,7 @@ class Service(ServiceBase):
             message = '%s %s. commented "%s" on %s "%s" (#%s) %s' % (
                 payload['attributes']['created_by']['first_name'],
                 payload['attributes']['created_by']['last_name'][0],
-                payload['attributes']['body'][0:50], 
+                '%s...' % payload['attributes']['body'][0:50], 
                 payload['attributes']['item']['type'],
                 payload['attributes']['item']['title'],
                 payload['attributes']['item']['number'],
@@ -61,6 +61,12 @@ class Service(ServiceBase):
                 payload['attributes']['item']['title'],
                 payload['attributes']['item']['number'],
                 payload['attributes']['item']['short_url'])
+        elif payload['model'] == 'Deploy':
+            message = '%s %s. deployed %s items to %s.' % (
+                payload['attributes']['user']['first_name'],
+                payload['attributes']['user']['last_name'][0],
+                len(payload['attributes']['items']),
+                payload['attributes']['environment'])
         else:
             message = None
 
