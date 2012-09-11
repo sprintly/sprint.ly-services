@@ -8,5 +8,5 @@ Homepage: https://github.com/sprintly/sprint.ly-services
 
 Package: python-lookout
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}, python (>= 2.5), python-django (>= 1.2.0), python-decorator
+Depends: ${shlibs:Depends}, ${misc:Depends}, python (>= 2.5), python-decorator
 Description: Sprint.ly's outbound services integration.

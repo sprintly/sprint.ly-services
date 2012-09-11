@@ -1,3 +1,6 @@
+from lookout.base import ServiceBase
+from pinder import Campfire, Room
+
 
 class Service(ServiceBase):
     """
