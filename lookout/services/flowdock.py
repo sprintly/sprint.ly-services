@@ -3,7 +3,10 @@ import requests
 
 class Service(ServiceBase):
     """
+    Flowdock
+
     This will send events from Sprint.ly to Flowdock Team Inbox!
+    
     1. `auth_token` this is the api token for the particular flow you'd like to post to.
     """
     def send(self, payload):
