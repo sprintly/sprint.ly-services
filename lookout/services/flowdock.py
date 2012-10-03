@@ -6,7 +6,7 @@ class Service(ServiceBase):
     Flowdock
 
     This will send events from Sprint.ly to Flowdock Team Inbox!
-    
+
     1. `auth_token` this is the api token for the particular flow you'd like to post to.
     """
     def send(self, payload):
@@ -25,7 +25,7 @@ class Service(ServiceBase):
                 'from_address': payload['attributes']['created_by']['email'],
                 'subject' : payload['attributes']['item']['title'],
                 'content' : message,
-                'from_name' : payload['attributes']['created_by']['first_name'] + payload['attributes']['created_by']['last_name'][0],
+                'from_name' : '%s %s' % (payload['attributes']['created_by']['first_name'], payload['attributes']['created_by']['last_name'][0]),
                 'project' : payload['product']['name'],
                 'format' : 'html',
                 'tags' : payload['attributes']['item']['tags'],
@@ -54,7 +54,7 @@ class Service(ServiceBase):
                 'from_address': payload['attributes']['created_by']['email'],
                 'subject' : payload['attributes']['title'],
                 'content' : message,
-                'from_name' : payload['attributes']['created_by']['first_name'] + payload['attributes']['created_by']['last_name'][0],
+                'from_name' : '%s %s' % (payload['attributes']['created_by']['first_name'], payload['attributes']['created_by']['last_name'][0]),
                 'project' : payload['product']['name'],
                 'format' : 'html',
                 'tags' : payload['attributes']['tags'],
@@ -85,7 +85,7 @@ class Service(ServiceBase):
                 'from_address': payload['attributes']['created_by']['email'],
                 'subject' : payload['attributes']['blocked']['title'],
                 'content' : message,
-                'from_name' : payload['attributes']['blocked']['created_by']['first_name'] + payload['attributes']['blocked']['created_by']['last_name'][0],
+                'from_name' : '%s %s' % (payload['attributes']['blocked']['created_by']['first_name'], payload['attributes']['blocked']['created_by']['last_name'][0]),
                 'project' : payload['product']['name'],
                 'format' : 'html',
                 'tags' : payload['attributes']['tags'],
@@ -106,7 +106,7 @@ class Service(ServiceBase):
                 'from_address': payload['attributes']['user']['created_by']['email'],
                 'subject' : payload['attributes']['item']['title'],
                 'content' : message,
-                'from_name' : payload['attributes']['user']['created_by']['first_name'] + payload['attributes']['user']['created_by']['last_name'][0],
+                'from_name' : '%s %s' % (payload['attributes']['user']['created_by']['first_name'], payload['attributes']['user']['created_by']['last_name'][0]),
                 'project' : payload['product']['name'],
                 'format' : 'html',
                 'tags' : payload['attributes']['tags'],
