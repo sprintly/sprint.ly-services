@@ -1,9 +1,10 @@
 from lookout.base import ServiceBase
 import requests
 
+
 class Service(ServiceBase):
     """
-    HipChat 
+    HipChat
 
     This will send item events from Sprint.ly to your HipChat chat room. To install
     the package follow the steps below:
@@ -16,7 +17,7 @@ class Service(ServiceBase):
             message = '%s %s. commented "%s" on %s "%s" (#%s) %s' % (
                 payload['attributes']['created_by']['first_name'],
                 payload['attributes']['created_by']['last_name'][0],
-                '%s...' % payload['attributes']['body'][0:50], 
+                '%s...' % payload['attributes']['body'][0:50],
                 payload['attributes']['item']['type'],
                 payload['attributes']['item']['title'],
                 payload['attributes']['item']['number'],
@@ -83,4 +84,4 @@ class Service(ServiceBase):
         }
 
         url = 'https://api.hipchat.com/v1/rooms/message'
-        r = requests.post("https://api.hipchat.com/v1/rooms/message", data=data)
+        r = requests.post(url, data=data)
