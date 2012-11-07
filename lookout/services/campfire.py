@@ -1,5 +1,8 @@
+import logging
 from lookout.base import ServiceBase
 from pinder import Campfire, Room
+
+logger = logging.getLogger(__name__)
 
 class Service(ServiceBase):
     """
@@ -15,12 +18,16 @@ class Service(ServiceBase):
     def send(self, payload):
         campfire = Campfire(self.options['subdomain'], self.options['token'])
         room = campfire.find_room_by_name(self.options['room'])
+        if room is None:
+            logger.error("Could not join the room %s to send payload %r Options: %r",
+                         self.options['room'], payload, self.options)
+            return
 
         if payload['model'] == 'Comment':
             message = '%s %s. commented "%s" on %s "%s" (#%s) %s' % (
                 payload['attributes']['created_by']['first_name'],
                 payload['attributes']['created_by']['last_name'][0],
-                payload['attributes']['body'][0:50], 
+                payload['attributes']['body'][0:50],
                 payload['attributes']['item']['type'],
                 payload['attributes']['item']['title'],
                 payload['attributes']['item']['number'],
