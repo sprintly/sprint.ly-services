@@ -19,17 +19,13 @@ class Service(ServiceBase):
 
     def send(self, payload):
         if payload['model'] == 'Comment':
-            subject = '%s %s. commented on %s "%s" in %s' % (
-                payload['attributes']['created_by']['first_name'],
-                payload['attributes']['created_by']['last_name'][0],
+            subject = 'commented on %s "%s" in %s' % (
                 payload['attributes']['item']['type'],
                 payload['attributes']['item']['title'],
                 payload['product']['name'],
             )
-            message = '"%s" --%s %s.' % (
-                payload['attributes']['body'],
-                payload['attributes']['created_by']['first_name'],
-                payload['attributes']['created_by']['last_name'][0],
+            message = '"%s"' % (
+                payload['attributes']['body']
             )
 
             data = {
