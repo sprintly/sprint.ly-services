@@ -1,6 +1,6 @@
 from lookout.base import ServiceBase
 import requests
-
+import re
 
 class Service(ServiceBase):
     """
@@ -12,12 +12,15 @@ class Service(ServiceBase):
     1. `auth_token` is a valid HipChat API auth token. You can create an `auth_token` at `https://your-domain.hipchat.com/admin/api`.
     2. `room_id` is the actual name of the room from your HipChat Lobby. **NOTE:** It is not the ID of the room.
     """
+    MENTION_RE = r'@\[(?P<name>[^\]]+)\]\(pk:\d+\)'
+    MENTION_SUB = r'\g<name>'
+    
     def send(self, payload):
         if payload['model'] == 'Comment':
             message = '%s %s. commented "%s" on %s "%s" (#%s) %s' % (
                 payload['attributes']['created_by']['first_name'],
                 payload['attributes']['created_by']['last_name'][0],
-                '%s...' % payload['attributes']['body'][0:50],
+                '%s...' % self._clean_mentions(payload['attributes']['body'])[0:50],
                 payload['attributes']['item']['type'],
                 payload['attributes']['item']['title'],
                 payload['attributes']['item']['number'],
@@ -84,4 +87,10 @@ class Service(ServiceBase):
         }
 
         url = 'https://api.hipchat.com/v1/rooms/message'
-        r = requests.post(url, data=data)
+        _ = requests.post(url, data=data)
+    
+    def _clean_mentions(self, comment):
+        """
+        Convert @mentions in `comment` of the form "@[Name](pk:123)" to just "Name".
+        """
+        return re.sub(self.MENTION_RE, self.MENTION_SUB, comment)
