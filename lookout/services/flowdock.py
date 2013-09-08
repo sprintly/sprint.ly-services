@@ -156,7 +156,7 @@ class Service(ServiceBase):
 
             data = {
                 'source': 'Sprintly',
-                'from_address': payload['attributes']['user']['created_by']['email'],
+                'from_address': payload['attributes']['user']['email'],
                 'subject': subject,
                 'content': message,
                 'project': self._strip(payload['product']['name']),
