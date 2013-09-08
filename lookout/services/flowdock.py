@@ -30,7 +30,7 @@ class Service(ServiceBase):
 
             data = {
                 'source': 'Sprintly',
-                'from_address': payload['attributes']['item']['email']['discussion'],
+                'from_address': payload['attributes']['created_by']['email'],
                 'subject': subject,
                 'content': message,
                 'from_name': '%s %s' % (payload['attributes']['created_by']['first_name'], payload['attributes']['created_by']['last_name'][0]),
@@ -65,7 +65,7 @@ class Service(ServiceBase):
 
             data = {
                 'source': 'Sprintly',
-                'from_address': payload['attributes']['email']['discussion'],
+                'from_address': payload['attributes']['created_by']['email'],
                 'subject': subject,
                 'content': message,
                 'from_name': '%s %s' % (payload['attributes']['created_by']['first_name'], payload['attributes']['created_by']['last_name'][0]),
@@ -103,7 +103,7 @@ class Service(ServiceBase):
 
             data = {
                 'source': 'Sprintly',
-                'from_address': payload['attributes']['item']['email']['discussion'],
+                'from_address': payload['attributes']['created_by']['email'],
                 'subject': subject,
                 'content': message,
                 'from_name': '%s %s' % (payload['attributes']['user']['first_name'], payload['attributes']['user']['last_name'][0]),
@@ -122,6 +122,7 @@ class Service(ServiceBase):
                 payload['product']['name'],
             )
 
+            # FIXME: Can't figure a decent email to send in this case
             data = {
                 'source': 'Sprintly',
                 'from_address': payload['attributes']['item']['email']['discussion'],
