@@ -48,7 +48,7 @@ class Service(ServiceBase):
                 payload['product']['name'],
             )
 
-            message = '%s %s. created %s "%s"' % (
+            message = '%s %s created %s "%s"' % (
                 payload['attributes']['created_by']['first_name'],
                 payload['attributes']['created_by']['last_name'],
                 payload['attributes']['type'],
@@ -84,7 +84,7 @@ class Service(ServiceBase):
                 payload['attributes']['blocked']['title'],
             )
 
-            message = '%s %s. indicated %s "%s" in %s' % (
+            message = '%s %s indicated %s "%s" in %s' % (
                 payload['attributes']['user']['first_name'],
                 payload['attributes']['user']['last_name'],
                 payload['attributes']['item']['type'],
@@ -114,7 +114,7 @@ class Service(ServiceBase):
             }
 
         elif payload['model'] == 'Favorite':
-            message = '%s %s. favorited %s "%s" in %s' % (
+            message = '%s %s favorited %s "%s" in %s' % (
                 payload['attributes']['user']['first_name'],
                 payload['attributes']['user']['last_name'],
                 payload['attributes']['item']['type'],
@@ -135,7 +135,7 @@ class Service(ServiceBase):
             }
 
         elif payload['model'] == 'Deploy':
-            subject = '%s %s. deployed %s items in %s to %s' % (
+            subject = '%s %s deployed %s items in %s to %s' % (
                 payload['attributes']['user']['first_name'],
                 payload['attributes']['user']['last_name'],
                 len(payload['attributes']['items']),
