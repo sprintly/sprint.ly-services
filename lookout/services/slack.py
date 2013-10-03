@@ -1,4 +1,4 @@
-from .webhook import Service as WebHookService
+from lookout.services.webhook import Service as WebHookService
 from lookout.base import MessageServiceBase
 
 class Service(WebHookService, MessageServiceBase):
