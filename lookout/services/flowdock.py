@@ -33,7 +33,7 @@ class Service(ServiceBase):
                 'from_address': payload['attributes']['created_by']['email'],
                 'subject': subject,
                 'content': message,
-                'from_name': '%s %s' % (payload['attributes']['created_by']['first_name'], payload['attributes']['created_by']['last_name'][0]),
+                'from_name': '%s %s' % (payload['attributes']['created_by']['first_name'], payload['attributes']['created_by']['last_name']),
                 'project': self._strip(payload['product']['name']),
                 'format': 'html',
                 'tags': payload['attributes']['item']['tags'],
@@ -48,9 +48,9 @@ class Service(ServiceBase):
                 payload['product']['name'],
             )
 
-            message = '%s %s. created %s "%s"' % (
+            message = '%s %s created %s "%s"' % (
                 payload['attributes']['created_by']['first_name'],
-                payload['attributes']['created_by']['last_name'][0],
+                payload['attributes']['created_by']['last_name'],
                 payload['attributes']['type'],
                 payload['attributes']['title'],
             )
@@ -59,7 +59,7 @@ class Service(ServiceBase):
                 payload['attributes']['created_by']['id']:
                 message += ' and assigned it to %s %s.' % (
                     payload['attributes']['assigned_to']['first_name'],
-                    payload['attributes']['assigned_to']['last_name'][0])
+                    payload['attributes']['assigned_to']['last_name'])
             if payload['attributes']['description'] is not None and len(payload['attributes']['description']):
                 message += '<p><blockquote>"%s"</blockquote></p>' % payload['attributes']['description']
 
@@ -68,7 +68,7 @@ class Service(ServiceBase):
                 'from_address': payload['attributes']['created_by']['email'],
                 'subject': subject,
                 'content': message,
-                'from_name': '%s %s' % (payload['attributes']['created_by']['first_name'], payload['attributes']['created_by']['last_name'][0]),
+                'from_name': '%s %s' % (payload['attributes']['created_by']['first_name'], payload['attributes']['created_by']['last_name']),
                 'project': self._strip(payload['product']['name']),
                 'format': 'html',
                 'tags': payload['attributes']['tags'],
@@ -84,9 +84,9 @@ class Service(ServiceBase):
                 payload['attributes']['blocked']['title'],
             )
 
-            message = '%s %s. indicated %s "%s" in %s' % (
+            message = '%s %s indicated %s "%s" in %s' % (
                 payload['attributes']['user']['first_name'],
-                payload['attributes']['user']['last_name'][0],
+                payload['attributes']['user']['last_name'],
                 payload['attributes']['item']['type'],
                 payload['attributes']['item']['title'],
                 payload['product']['name'],
@@ -94,7 +94,7 @@ class Service(ServiceBase):
             if payload['attributes']['item']['assigned_to']:
                 message += ' (assigned to %s %s.)' % (
                     payload['attributes']['item']['assigned_to']['first_name'],
-                    payload['attributes']['item']['assigned_to']['last_name'][0],
+                    payload['attributes']['item']['assigned_to']['last_name'],
                 )
             message += ' is blocking %s "%s"' % (
                 payload['attributes']['blocked']['type'],
@@ -106,7 +106,7 @@ class Service(ServiceBase):
                 'from_address': payload['attributes']['created_by']['email'],
                 'subject': subject,
                 'content': message,
-                'from_name': '%s %s' % (payload['attributes']['user']['first_name'], payload['attributes']['user']['last_name'][0]),
+                'from_name': '%s %s' % (payload['attributes']['user']['first_name'], payload['attributes']['user']['last_name']),
                 'project': self._strip(payload['product']['name']),
                 'format': 'html',
                 'tags': payload['attributes']['item']['tags'],
@@ -114,9 +114,9 @@ class Service(ServiceBase):
             }
 
         elif payload['model'] == 'Favorite':
-            message = '%s %s. favorited %s "%s" in %s' % (
+            message = '%s %s favorited %s "%s" in %s' % (
                 payload['attributes']['user']['first_name'],
-                payload['attributes']['user']['last_name'][0],
+                payload['attributes']['user']['last_name'],
                 payload['attributes']['item']['type'],
                 payload['attributes']['item']['title'],
                 payload['product']['name'],
@@ -127,7 +127,7 @@ class Service(ServiceBase):
                 'from_address': payload['attributes']['user']['email'],
                 'subject': message,
                 'content': message,
-                'from_name': '%s %s' % (payload['attributes']['user']['first_name'], payload['attributes']['user']['last_name'][0]),
+                'from_name': '%s %s' % (payload['attributes']['user']['first_name'], payload['attributes']['user']['last_name']),
                 'project': self._strip(payload['product']['name']),
                 'format': 'html',
                 'tags': payload['attributes']['item']['tags'],
@@ -135,9 +135,9 @@ class Service(ServiceBase):
             }
 
         elif payload['model'] == 'Deploy':
-            subject = '%s %s. deployed %s items in %s to %s' % (
+            subject = '%s %s deployed %s items in %s to %s' % (
                 payload['attributes']['user']['first_name'],
-                payload['attributes']['user']['last_name'][0],
+                payload['attributes']['user']['last_name'],
                 len(payload['attributes']['items']),
                 payload['product']['name'],
                 payload['attributes']['environment']
