@@ -13,7 +13,7 @@ class Service(ServiceBase):
 
     1. `subdomain` is Campfire subdomain (e.g. `foobar` in `https://foobar.campfirenow.com`)
     2. `room` is the actual name of the room from your Campfire Lobby. **NOTE:** It is not the ID of the room.
-    3. `token` is your API token. You can the "My info" link next to the "Settings" tab.
+    3. `token` is your Campfire API token. You can find this by clicking the "My info" link next to the "Settings" tab.
     """
     def send(self, payload):
         campfire = Campfire(self.options['subdomain'], self.options['token'])
