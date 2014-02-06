@@ -9,7 +9,7 @@ class Service(ServiceBase):
 
     We'll hit these URLs with a POST request when a new piece of data is created
     within your Sprint.ly project. More information on what we send and in what
-    format can be found in our [WebHooks Guide](http://help.sprint.ly).
+    format can be found in our [WebHooks Guide](http://help.sprint.ly/knowledgebase/articles/105560-webhooks-guide).
     """
     def send(self, payload):
         try:
