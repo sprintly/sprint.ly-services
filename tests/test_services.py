@@ -53,7 +53,23 @@ def test_campfire_sends():
         assert mock_campfire_room.speak.called
 
 def test_campfire_requires_room():
-    pass
+    options = {
+        'subdomain': 'somesub',
+        'token': 'sometoken',
+        'room': 'someroom'
+    }
+
+    with patch('pinder.Campfire') as mock_campfire:
+        mock_campfire_room = Mock()
+        
+        mock_campfire_instance = mock_campfire.return_value
+        mock_campfire_instance.find_room_by_name.return_value = None # Fake no room
+
+        service = CampfireService(options)
+        service.send(fake_comment_payload)
+
+        assert not mock_campfire_room.join.called
+        assert not mock_campfire_room.speak.called
 
 def test_flowdock_sends():
     pass
