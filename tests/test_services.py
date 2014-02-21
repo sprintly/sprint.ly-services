@@ -24,7 +24,8 @@ fake_comment_payload = {
         'created_by': {
             'id': 1,
             'first_name': 'Peter',
-            'last_name': 'Gibbons'
+            'last_name': 'Gibbons',
+            'email': 'peter@initech.com'
         },
         'item': {
             'id': 1,
@@ -43,12 +44,14 @@ fake_item_payload = {
         'created_by': {
             'id': 2,
             'first_name': 'Michael',
-            'last_name': 'Bolton'
+            'last_name': 'Bolton',
+            'email': 'michael@initech.com'
         },
         'assigned_to': {
             'id': 3,
             'first_name': 'Samir',
-            'last_name': 'Nagheenanajar'
+            'last_name': 'Nagheenanajar',
+            'email': 'samir@initech.com'
         },
         'id': 1,
         'type': 'task',
@@ -66,7 +69,14 @@ fake_block_payload = {
         'user': {
             'id': 5,
             'first_name': 'Milton',
-            'last_name': 'Waddams'
+            'last_name': 'Waddams',
+            'email': 'milton@initech.com'
+        },
+        'created_by': {
+            'id': 5,
+            'first_name': 'Milton',
+            'last_name': 'Waddams',
+            'email': 'milton@initech.com'
         },
         'item': {
             'id': 1,
@@ -94,17 +104,58 @@ fake_favorite_payload = {
     'model': 'Favorite',
     'product': fake_product,
     'attributes': {
-        'user': {
-            'id': 7,
-            'first_name': 'Tom',
-            'last_name': 'Smykowski'
-        },
+        'created_at': '2011-06-11T06:41:21+00:00',
+        'id': 2,
         'item': {
-            'id': 1,
+            'assigned_to': {
+                'created_at': '2011-06-07T21:10:52+00:00',
+                'email': u'joe@sprint.ly',
+                'first_name': u'Joe',
+                'id': 1,
+                'last_login': '2014-02-14T19:26:54+00:00',
+                'last_name': u'Stump'
+            },
+            'created_at': '2011-06-08T18:02:55+00:00',
+            'created_by': {
+                'created_at': '2011-06-07T21:10:52+00:00',
+                'email': u'joe@sprint.ly',
+                'first_name': u'Joe',
+                'id': 1,
+                'last_login': '2014-02-14T19:26:54+00:00',
+                'last_name': u'Stump'
+            },
+            'description': u'',
+            'email': {
+                'discussion': 'discussion-5@items.sprint.ly',
+                'files': 'files-5@items.sprint.ly'
+            },
+            'last_modified': '2012-06-15T19:40:04+00:00',
+            'number': 5,
+            'product': {
+                'archived': False,
+                'id': 1,
+                'name': u'sprint.ly'
+            },
+            'progress': {
+                'accepted_at': '2011-10-25T00:28:52+00:00'
+            },
+            'score': '~',
+            'short_url': u'http://sprint.ly/i/1/5/',
+            'status': 'accepted',
+            'tags': [],
+            'title': u'As a user, I want Markdown formatting in my descriptions & comments so that I can use advanced formatting without knowing HTML.',
             'type': 'story',
-            'title': 'Jump to Conclusions Mat',
-            'number': 1,
-            'short_url': 'http://sprint.ly'
+            'what': u'Markdown formatting in my descriptions & comments',
+            'who': u'user',
+            'why': u'I can use advanced formatting without knowing HTML'
+        },
+        'user': {
+            'created_at': '2011-06-07T21:10:52+00:00',
+            'email': u'joe@sprint.ly',
+            'first_name': u'Joe',
+            'id': 1,
+            'last_login': '2014-02-14T19:26:54+00:00',
+            'last_name': u'Stump'
         }
     }
 }
@@ -116,10 +167,11 @@ fake_deploy_payload = {
         'user': {
             'id': 1,
             'first_name': 'Bob Slydell',
-            'last_name': 'Gibbons'
+            'last_name': 'Gibbons',
+            'email': 'bob1@initech.com'
         },
         'items': [],
-        'environment': "Watching kung fu..."
+        'environment': "production"
     }
 }
 
@@ -183,10 +235,10 @@ def test_flowdock_sends(payload):
         'auth_token': 'sometoken'
     }
 
-    with patch('requests') as mock_requests:
+    with patch('requests.post') as mock_requests_post:
         service = FlowdockService(options)
         service.send(payload)
-        assert mock_requests.post.called
+        assert mock_requests_post.called
 
 def test_hipchat_sends():
     pass
