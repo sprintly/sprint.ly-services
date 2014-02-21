@@ -69,8 +69,17 @@ def test_flowdock_sends(payload):
         service.send(payload)
         assert mock_requests_post.called
 
-def test_hipchat_sends():
-    pass
+@pytest.mark.parametrize('payload', all_payloads)
+def test_hipchat_sends(payload):
+    options = {
+        'auth_token': 'sometoken',
+        'room_id': 'someroom'
+    }
+
+    with patch('requests.post') as mock_requests_post:
+        service = HipchatService(options)
+        service.send(payload)
+        assert mock_requests_post.called
 
 def test_webhook_sends():
     pass
