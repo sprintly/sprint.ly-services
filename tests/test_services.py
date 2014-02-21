@@ -81,8 +81,34 @@ def test_hipchat_sends(payload):
         service.send(payload)
         assert mock_requests_post.called
 
-def test_webhook_sends():
-    pass
+@pytest.mark.parametrize('payload', all_payloads)
+def test_webhook_sends(payload):
+    options = {
+        'urls': [
+            'http://sprint.ly'
+        ]
+    }
 
-def test_webhook_requires_urls():
-    pass
+    with patch('urllib2.Request') as mock_urllib2_request:
+        with patch('urllib2.urlopen') as mock_urllib2_urlopen:
+            mock_request = Mock()
+            mock_urllib2_request.return_value = mock_request
+
+            service = WebhookService(options)
+            service.send(payload)
+
+            assert mock_urllib2_request.call_count == len(options['urls'])
+            mock_urllib2_urlopen.call_args[0][0] == mock_request
+
+@pytest.mark.parametrize('payload', all_payloads)
+def test_webhook_requires_urls(payload):
+    with patch('urllib2.Request') as mock_urllib2_request:
+        with patch('urllib2.urlopen') as mock_urllib2_urlopen:
+            mock_request = Mock()
+            mock_urllib2_request.return_value = mock_request
+
+            service = WebhookService({})
+            service.send(payload)
+
+            assert not mock_urllib2_request.called
+            assert not mock_urllib2_urlopen.called
