@@ -177,10 +177,16 @@ def test_campfire_requires_room(payload):
         assert not mock_campfire_room.join.called
         assert not mock_campfire_room.speak.called
 
-def test_flowdock_sends():
+@pytest.mark.parametrize('payload', all_payloads)
+def test_flowdock_sends(payload):
     options = {
         'auth_token': 'sometoken'
     }
+
+    with patch('requests') as mock_requests:
+        service = FlowdockService(options)
+        service.send(payload)
+        assert mock_requests.post.called
 
 def test_hipchat_sends():
     pass
