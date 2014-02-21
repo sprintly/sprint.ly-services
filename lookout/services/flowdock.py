@@ -103,7 +103,7 @@ class Service(ServiceBase):
 
             data = {
                 'source': 'Sprintly',
-                'from_address': payload['attributes']['created_by']['email'],
+                'from_address': payload['attributes']['user']['email'],
                 'subject': subject,
                 'content': message,
                 'from_name': '%s %s' % (payload['attributes']['user']['first_name'], payload['attributes']['user']['last_name']),
