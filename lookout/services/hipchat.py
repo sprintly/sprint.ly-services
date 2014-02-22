@@ -1,6 +1,7 @@
-from lookout.base import MessageServiceBase
 import requests
-import re
+
+from lookout.base import MessageServiceBase
+
 
 class Service(MessageServiceBase):
     """
@@ -12,9 +13,6 @@ class Service(MessageServiceBase):
     1. `auth_token` is a valid HipChat API auth token. You can create an `auth_token` at `https://your-domain.hipchat.com/admin/api`.
     2. `room_id` is the actual name of the room from your HipChat Lobby. **NOTE:** It is not the ID of the room.
     """
-    MENTION_RE = r'@\[(?P<name>[^\]]+)\]\(pk:\d+\)'
-    MENTION_SUB = r'\g<name>'
-    
     def send(self, payload):
         message = self.message(payload)
         if not message:
@@ -31,9 +29,3 @@ class Service(MessageServiceBase):
 
         url = 'https://api.hipchat.com/v1/rooms/message'
         _ = requests.post(url, data=data)
-    
-    def _clean_mentions(self, comment):
-        """
-        Convert @mentions in `comment` of the form "@[Name](pk:123)" to just "Name".
-        """
-        return re.sub(self.MENTION_RE, self.MENTION_SUB, comment)

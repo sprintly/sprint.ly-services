@@ -1,4 +1,6 @@
 import os
+import re
+
 from django.utils.importlib import import_module
 
 
@@ -22,7 +24,10 @@ class ServiceBase(object):
         return '\n'.join([l.strip() for l in self.__doc__.split('\n')[2:]]).strip()
 
 class MessageServiceBase(ServiceBase):
-    def message(payload):
+    MENTION_RE = r'@\[(?P<name>[^\]]+)\]\(pk:\d+\)'
+    MENTION_SUB = r'\g<name>'
+    
+    def message(self, payload):
         model = payload['model']
         attr = payload['attributes']
         if payload['model'] == 'Comment':
@@ -83,6 +88,12 @@ class MessageServiceBase(ServiceBase):
         else:
             message = None
         return message
+
+    def _clean_mentions(self, comment):
+        """
+        Convert @mentions in `comment` of the form "@[Name](pk:123)" to just "Name".
+        """
+        return re.sub(self.MENTION_RE, self.MENTION_SUB, comment)
 
 def get_available_services():
     path = '%s/services' % os.path.dirname(__file__)
