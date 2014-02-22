@@ -1,0 +1,8 @@
+Django==1.6.2
+httplib2==0.8
+mock==1.0.1
+pinder==1.0.1
+py==1.4.20
+pytest==2.5.2
+requests==2.2.1
+simplejson==3.3.3

@@ -1,6 +1,6 @@
 import logging
 from lookout.base import ServiceBase
-from pinder import Campfire, Room
+import pinder
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +16,7 @@ class Service(ServiceBase):
     3. `token` is your Campfire API token. You can find this by clicking the "My info" link next to the "Settings" tab.
     """
     def send(self, payload):
-        campfire = Campfire(self.options['subdomain'], self.options['token'])
+        campfire = pinder.Campfire(self.options['subdomain'], self.options['token'])
         room = campfire.find_room_by_name(self.options['room'])
         if room is None:
             logger.error("Could not join the room %s to send payload %r Options: %r",

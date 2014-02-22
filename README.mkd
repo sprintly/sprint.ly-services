@@ -16,8 +16,14 @@ This is the home of Sprint.ly's outbound service integration. If you've ever wis
 2. Create a file in `sprint.ly-services/lookout/services/` named `YourService.py`.
 3. Create a class named `Service`.
 4. In your class's `__doc__` put `YourService` on the top line, a blank line, and then as much Markdown as you like for installation instructions.
-5. Send us a pull request with which options you need us to collect and what you wish them to be named.
-6. We'll review, merge, and deploy.
+5. Add tests for your service to `tests/test_services.py`
+6. Send us a pull request with which options you need us to collect and what you wish them to be named.
+7. We'll review, merge, and deploy.
+
+### Running Tests
+
+To run tests you'll need to install the required modules in `requirements.txt`, then run `make test` 
+from the project root directory.
 
 ## Payload
 
