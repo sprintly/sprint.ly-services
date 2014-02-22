@@ -17,13 +17,17 @@ class Service(ServiceBase):
         except KeyError:
             return  # Nothing to do here.
 
-        data = json.dumps(payload)
+        for url in urls:
+            self._request(url, payload)
+
+    def _request(self, url, data):
+        payload = json.dumps(data)
+
         headers = {
             'Content-Type': 'application/json',
-            'Content-Length': len(data)
+            'Content-Length': len(payload)
         }
-
-        for url in urls:
-            request = urllib2.Request(url, data, headers)
-            fp = urllib2.urlopen(request, timeout=2)
-            fp.close()
+        
+        request = urllib2.Request(url, payload, headers)
+        fp = urllib2.urlopen(request, timeout=2)
+        fp.close()

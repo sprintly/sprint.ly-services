@@ -9,5 +9,16 @@ class Service(WebHookService, MessageServiceBase):
     incoming WebHook for your Slack account here.
     """
     def send(self, payload):
-        payload['text'] = self.message(payload)
-        super(WebHookService, self).send(payload)
+        options = self.options.copy()
+
+        try:
+            url = options.pop('url')
+        except KeyError:
+            return
+
+        data = {'text': self.message(payload)}
+
+        if options:
+            data.update(options)
+
+        self._request(url, data)
