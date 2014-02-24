@@ -1,4 +1,6 @@
 import os
+import re
+
 from django.utils.importlib import import_module
 
 
@@ -21,6 +23,92 @@ class ServiceBase(object):
     def description(self):
         return '\n'.join([l.strip() for l in self.__doc__.split('\n')[2:]]).strip()
 
+class MessageServiceBase(object):
+    MENTION_RE = r'@\[(?P<name>[^\]]+)\]\(pk:\d+\)'
+    MENTION_SUB = r'\g<name>'
+
+    @staticmethod
+    def comment(attr):
+        return '%s %s. commented "%s" on %s "%s" (#%s) %s' % (
+            attr['created_by']['first_name'],
+            attr['created_by']['last_name'][0],
+            '%s...' % MessageServiceBase._clean_mentions(attr['body'])[0:50],
+            attr['item']['type'],
+            attr['item']['title'],
+            attr['item']['number'],
+            attr['item']['short_url'])
+
+    @staticmethod
+    def item(attr):
+        message = '%s %s. created the %s "%s" (#%s) %s' % (
+            attr['created_by']['first_name'],
+            attr['created_by']['last_name'][0],
+            attr['type'],
+            attr['title'],
+            attr['number'],
+            attr['short_url'])
+
+        if attr['assigned_to'] and \
+            attr['assigned_to']['id'] != \
+            attr['created_by']['id']:
+            message += ' and assigned it to %s %s.' % (
+                attr['assigned_to']['first_name'],
+                attr['assigned_to']['last_name'][0])
+        return message
+
+    @staticmethod
+    def block(attr):
+        message = '%s %s. indicated the %s "%s" (#%s) %s is blocked on the %s ' \
+                  '"%s" (#%s) %s' % (
+            attr['user']['first_name'],
+            attr['user']['last_name'][0],
+            attr['blocked']['type'],
+            attr['blocked']['title'],
+            attr['blocked']['number'],
+            attr['blocked']['short_url'],
+            attr['item']['type'],
+            attr['item']['title'],
+            attr['item']['number'],
+            attr['item']['short_url'])
+        if attr['item']['assigned_to']:
+            message += ', which is owned by %s %s.' % (
+                attr['item']['assigned_to']['first_name'],
+                attr['item']['assigned_to']['last_name'][0])
+        return message
+
+    @staticmethod
+    def favorite(attr):
+        message = '%s %s. favorited the %s "%s" (#%s) %s' % (
+            attr['user']['first_name'],
+            attr['user']['last_name'][0],
+            attr['item']['type'],
+            attr['item']['title'],
+            attr['item']['number'],
+            attr['item']['short_url'])
+        return message
+
+    @staticmethod
+    def deploy(attr):
+        message = '%s %s. deployed %s items to %s.' % (
+            attr['user']['first_name'],
+            attr['user']['last_name'][0],
+            len(attr['items']),
+            attr['environment'])
+        return message
+
+    @staticmethod
+    def message(payload):
+        model = payload['model']
+        attr = payload['attributes']
+        return getattr(MessageServiceBase, model.lower(), lambda x: None)(attr)
+
+    @staticmethod
+    def _clean_mentions(comment):
+        """
+        Convert @mentions in `comment` of the form "@[Name](pk:123)" to just "Name".
+        """
+        return re.sub(MessageServiceBase.MENTION_RE,
+                      MessageServiceBase.MENTION_SUB, comment)
 
 def get_available_services():
     path = '%s/services' % os.path.dirname(__file__)
