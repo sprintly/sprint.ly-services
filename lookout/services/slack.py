@@ -1,7 +1,7 @@
 from lookout.services.webhook import Service as WebHookService
 from lookout.base import MessageServiceBase
 
-class Service(WebHookService, MessageServiceBase):
+class Service(WebHookService):
     """
     Slack
 
@@ -16,7 +16,7 @@ class Service(WebHookService, MessageServiceBase):
         except KeyError:
             return
 
-        data = {'text': self.message(payload)}
+        data = {'text': MessageServiceBase.message(payload)}
 
         if options:
             data.update(options)

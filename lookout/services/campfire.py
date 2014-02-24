@@ -2,12 +2,12 @@ import logging
 
 import pinder
 
-from lookout.base import MessageServiceBase
+from lookout.base import MessageServiceBase, ServiceBase
 
 
 logger = logging.getLogger(__name__)
 
-class Service(MessageServiceBase):
+class Service(ServiceBase):
     """
     Campfire
 
@@ -26,9 +26,9 @@ class Service(MessageServiceBase):
                          self.options['room'], payload, self.options)
             return
 
-        message = self.message(payload) 
+        message = MessageServiceBase.message(payload)
         if not message:
             return
 
         room.join()
-        result = room.speak(message)
+        room.speak(message)
