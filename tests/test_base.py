@@ -14,6 +14,5 @@ def test_get_available_services():
     assert len(service_file_list) == len(services)
 
 def test_clean_mentions():
-    service = MessageServiceBase({})
     comment = "Hello there @[Joe Stump](pk:1)"
-    assert service._clean_mentions(comment) == "Hello there Joe Stump"
+    assert MessageServiceBase._clean_mentions(comment) == "Hello there Joe Stump"

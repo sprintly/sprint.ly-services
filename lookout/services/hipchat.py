@@ -1,9 +1,9 @@
 import requests
 
-from lookout.base import MessageServiceBase
+from lookout.base import MessageServiceBase, ServiceBase
 
 
-class Service(MessageServiceBase):
+class Service(ServiceBase):
     """
     HipChat
 
@@ -14,7 +14,7 @@ class Service(MessageServiceBase):
     2. `room_id` is the actual name of the room from your HipChat Lobby. **NOTE:** It is not the ID of the room.
     """
     def send(self, payload):
-        message = self.message(payload)
+        message = MessageServiceBase.message(payload)
         if not message:
             return
 
