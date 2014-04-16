@@ -1,7 +1,24 @@
+from collections import defaultdict
 import os
 import re
 
 from django.utils.importlib import import_module
+
+
+# Sprint.ly colors
+
+SPRINTLY_DEFAULT_COLOR = '#84b431' # Sprint.ly green
+SPRINTLY_STORY_COLOR = '#96be60'
+SPRINTLY_TASK_COLOR = '#454545'
+SPRINTLY_DEFECT_COLOR = '#D94949'
+SPRINTLY_TEST_COLOR = '#5A96AB'
+
+SPRINTLY_COLORS = defaultdict(lambda: SPRINTLY_DEFAULT_COLOR, {
+    'story': SPRINTLY_STORY_COLOR,
+    'task': SPRINTLY_TASK_COLOR,
+    'defect': SPRINTLY_DEFECT_COLOR,
+    'test': SPRINTLY_TEST_COLOR
+})
 
 
 class ServiceBase(object):
@@ -109,6 +126,13 @@ class MessageServiceBase(object):
         """
         return re.sub(MessageServiceBase.MENTION_RE,
                       MessageServiceBase.MENTION_SUB, comment)
+
+    @staticmethod
+    def format_name(data):
+        """
+        Takes a dict of user data containing `first_name` and `last_name` keys and returns a formatted name like: John D.
+        """
+        return '%s %s.' % (data['first_name'], data['last_name'][0])
 
 def get_available_services():
     path = '%s/services' % os.path.dirname(__file__)
