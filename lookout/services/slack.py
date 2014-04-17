@@ -67,10 +67,18 @@ class Service(WebHookService):
         x indicated item y is blocked by item z, which is assigned to j
         (include item )
         """
-        return {}
+        return {
+
+        }
 
     def get_comment_attachment(self, data):
-        return {}
+        comment = data['attributes']
+        pretext = '%s commented on %s <%s|#%s>' % (MessageServiceBase.format_name(comment['created_by']), comment['item']['type'], comment['item']['short_url'], comment['item']['number'])
+        return {
+            'color': self.get_attachment_color(comment['item']),
+            'pretext': pretext,
+            'text': MessageServiceBase.format_comment(comment['body'])
+        }
 
     def get_deploy_attachment(self, data):
         return {}
