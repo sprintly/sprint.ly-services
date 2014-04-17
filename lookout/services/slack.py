@@ -96,7 +96,17 @@ class Service(WebHookService):
         """
         Return a dict with attachment data for Deploy activity
         """
-        return {}
+        deploy = data['attributes']
+        items = deploy['items']
+        return {
+            'color': self.get_attachment_color(),
+            'text': '%s deployed %d item%s to %s' % (
+                MessageServiceBase.format_name(deploy['user']),
+                len(items),
+                '' if len(items) == 1 else 's',
+                deploy['environment']
+            )
+        }
 
     def get_favorite_attachment(self, data):
         """
