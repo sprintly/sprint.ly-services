@@ -1,9 +1,10 @@
-from mock import patch
 import pytest
+
+from mock import patch
 
 from lookout.services.slack import Service
 
-from .fixtures import all_payloads, fake_item_payload
+from .fixtures import all_payloads
 
 
 def test_get_attachment_color():
@@ -13,6 +14,19 @@ def test_get_attachment_color():
 def test_get_attachment_color_empty():
     srv = Service({})
     assert type(srv.get_attachment_color()) == str
+
+def test_format_item_link():
+    srv = Service({})
+    item = {
+        'short_url': '',
+        'title': '',
+        'number' : 1
+    }
+    link = srv.format_item_link(item)
+
+    assert type(link) ==  str
+    assert link[0] == '<'
+    assert link[-1] == '>'
 
 @pytest.mark.parametrize('payload', all_payloads)
 def test_get_post_data(payload):

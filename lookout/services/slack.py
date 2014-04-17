@@ -40,7 +40,7 @@ class Service(WebHookService):
             'fallback': message
         }
 
-        # Get activity model-specific data-grabber method name and call it
+        # Get activity model-specific attachment data-formatting method name and call it
 
         format_method = 'get_%s_attachment' % data['model'].lower()
         attachment = getattr(self, format_method, lambda data: None)(data)
@@ -57,22 +57,17 @@ class Service(WebHookService):
         """
         return SPRINTLY_COLORS[item_data.get('type') if item_data else None]
 
-
-
-    # comment, block, item, favorite, deply
-
     def get_block_attachment(self, data):
         """
         Return a dict with attachment data for Block activity
         """
         block = data['attributes']
         attachment = self.extract_item_attachment_data(block['item'])
-        attachment['pretext'] = '%s indicated the %s %s is blocked by the %s %s' % (
+        attachment['pretext'] = '%s indicated the %s %s is blocked by the %s:' % (
             MessageServiceBase.format_name(block['user']),
             block['blocked']['type'],
             self.format_item_link(block['blocked']),
-            block['item']['type'],
-            self.format_item_link(block['item'])
+            block['item']['type']
         )
         return attachment
 
@@ -81,7 +76,7 @@ class Service(WebHookService):
         Return a dict with attachment data for Comment activity
         """
         comment = data['attributes']
-        pretext = '%s commented on %s %s' % (
+        pretext = '%s commented on %s %s:' % (
             MessageServiceBase.format_name(comment['created_by']),
             comment['item']['type'],
             self.format_item_link(comment['item'])
@@ -89,7 +84,7 @@ class Service(WebHookService):
         return {
             'color': self.get_attachment_color(comment['item']),
             'pretext': pretext,
-            'text': MessageServiceBase.format_comment(comment['body'])
+            'text': '"%s"' % MessageServiceBase.format_comment(comment['body'])
         }
 
     def get_deploy_attachment(self, data):
@@ -112,7 +107,13 @@ class Service(WebHookService):
         """
         Return a dict with attachment data for Favorite activity
         """
-        return {}
+        fave = data['attributes']
+        attachment = self.extract_item_attachment_data(fave['item'])
+        attachment['pretext'] = '%s favorited the %s:' % (
+            MessageServiceBase.format_name(fave['user']),
+            fave['item']['type']
+        )
+        return attachment
 
     def get_item_attachment(self, data):
         """
@@ -157,6 +158,10 @@ class Service(WebHookService):
         return item_attachment
 
     def format_item_link(self, item):
+        """
+        Use the passed in dict of item data and return a Slack-formatted URL string 
+        for it with item number and title
+        """
         return '<%s|#%s - %s>' % (
             item['short_url'],
             item['number'],
