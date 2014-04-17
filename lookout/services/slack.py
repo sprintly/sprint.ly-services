@@ -63,21 +63,28 @@ class Service(WebHookService):
 
     def get_block_attachment(self, data):
         """
-        x indicated item y is blocked by item z, which is assigned to j
-        (include item )
+        Return a dict with attachment data for Block activity
         """
-        return {
-
-        }
+        block = data['attributes']
+        attachment = self.extract_item_attachment_data(block['item'])
+        attachment['pretext'] = '%s indicated the %s %s is blocked by the %s %s' % (
+            MessageServiceBase.format_name(block['user']),
+            block['blocked']['type'],
+            self.format_item_link(block['blocked']),
+            block['item']['type'],
+            self.format_item_link(block['item'])
+        )
+        return attachment
 
     def get_comment_attachment(self, data):
+        """
+        Return a dict with attachment data for Comment activity
+        """
         comment = data['attributes']
-        pretext = '%s commented on %s <%s|#%s> "%s"' % (
+        pretext = '%s commented on %s %s' % (
             MessageServiceBase.format_name(comment['created_by']),
             comment['item']['type'],
-            comment['item']['short_url'],
-            comment['item']['number'],
-            comment['item']['title']
+            self.format_item_link(comment['item'])
         )
         return {
             'color': self.get_attachment_color(comment['item']),
@@ -86,40 +93,62 @@ class Service(WebHookService):
         }
 
     def get_deploy_attachment(self, data):
+        """
+        Return a dict with attachment data for Deploy activity
+        """
         return {}
 
     def get_favorite_attachment(self, data):
+        """
+        Return a dict with attachment data for Favorite activity
+        """
         return {}
 
     def get_item_attachment(self, data):
+        """
+        Return a dict with attachment data for Item activity
+        """
         item = data['attributes']
+        attachment = self.extract_item_attachment_data(item)
+        attachment['pretext'] = '%s created the %s:' % (MessageServiceBase.format_name(item['created_by']), item['type'])
+        return attachment
 
-        attachment = {
+    def extract_item_attachment_data(self, item):
+        """
+        Extract item data from passed in item dict for use in an attachment
+        """
+        item_attachment = {
             'color': self.get_attachment_color(item),
-            'pretext': '%s created the %s:' % (MessageServiceBase.format_name(item['created_by']), item['type']),
-            'text': '<%s|#%s> %s' % (item['short_url'], item['number'], item['title']),
+            'text': self.format_item_link(item),
             'fields': []
         }
 
         if item['assigned_to']:
-            attachment['fields'].append({
+            item_attachment['fields'].append({
                 'title': 'Assigned to',
                 'value': '%s' % MessageServiceBase.format_name(item['assigned_to']),
                 'short': True
             })
 
         if item['status']:
-            attachment['fields'].append({
+            item_attachment['fields'].append({
                 'title': 'Status',
                 'value': ' '.join(item['status'].split('-')).capitalize(),
                 'short': True
             })
 
         if item['score']:
-            attachment['fields'].append({
+            item_attachment['fields'].append({
                 'title': 'Score',
                 'value': item['score'],
                 'short': True
             })
 
-        return attachment
+        return item_attachment
+
+    def format_item_link(self, item):
+        return '<%s|#%s - %s>' % (
+            item['short_url'],
+            item['number'],
+            item['title']
+        )
