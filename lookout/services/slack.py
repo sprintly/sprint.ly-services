@@ -37,8 +37,7 @@ class Service(WebHookService):
 
         default_data = {
             'color': SPRINTLY_DEFAULT_COLOR,
-            'fallback': message,
-            'pretext': message
+            'fallback': message
         }
 
         # Get activity model-specific data-grabber method name and call it
@@ -73,7 +72,13 @@ class Service(WebHookService):
 
     def get_comment_attachment(self, data):
         comment = data['attributes']
-        pretext = '%s commented on %s <%s|#%s>' % (MessageServiceBase.format_name(comment['created_by']), comment['item']['type'], comment['item']['short_url'], comment['item']['number'])
+        pretext = '%s commented on %s <%s|#%s> "%s"' % (
+            MessageServiceBase.format_name(comment['created_by']),
+            comment['item']['type'],
+            comment['item']['short_url'],
+            comment['item']['number'],
+            comment['item']['title']
+        )
         return {
             'color': self.get_attachment_color(comment['item']),
             'pretext': pretext,
@@ -91,6 +96,7 @@ class Service(WebHookService):
 
         attachment = {
             'color': self.get_attachment_color(item),
+            'pretext': '%s created the %s:' % (MessageServiceBase.format_name(item['created_by']), item['type']),
             'text': '<%s|#%s> %s' % (item['short_url'], item['number'], item['title']),
             'fields': []
         }
