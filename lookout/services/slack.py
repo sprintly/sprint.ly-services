@@ -67,16 +67,16 @@ class Service(WebHookService):
         x indicated item y is blocked by item z, which is assigned to j
         (include item )
         """
-        pass
+        return {}
 
     def get_comment_attachment(self, data):
-        pass
+        return {}
 
     def get_deploy_attachment(self, data):
-        pass
+        return {}
 
     def get_favorite_attachment(self, data):
-        pass
+        return {}
 
     def get_item_attachment(self, data):
         item = data['attributes']

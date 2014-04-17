@@ -49,7 +49,7 @@ class MessageServiceBase(object):
         return '%s %s. commented "%s" on %s "%s" (#%s) %s' % (
             attr['created_by']['first_name'],
             attr['created_by']['last_name'][0],
-            '%s...' % MessageServiceBase._clean_mentions(attr['body'])[0:50],
+            MessageServiceBase.format_comment(attr['body']),
             attr['item']['type'],
             attr['item']['title'],
             attr['item']['number'],
@@ -120,7 +120,7 @@ class MessageServiceBase(object):
         return getattr(MessageServiceBase, model.lower(), lambda x: None)(attr)
 
     @staticmethod
-    def _clean_mentions(comment):
+    def clean_mentions(comment):
         """
         Convert @mentions in `comment` of the form "@[Name](pk:123)" to just "Name".
         """
@@ -133,6 +133,15 @@ class MessageServiceBase(object):
         Takes a dict of user data containing `first_name` and `last_name` keys and returns a formatted name like: John D.
         """
         return '%s %s.' % (data['first_name'], data['last_name'][0])
+
+    @staticmethod
+    def format_comment(comment):
+        limit = 50
+        comment = MessageServiceBase.clean_mentions(comment)
+        if len(comment) > limit:
+            return '%s...' % comment[0:limit]
+        return comment
+
 
 def get_available_services():
     path = '%s/services' % os.path.dirname(__file__)
