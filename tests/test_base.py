@@ -15,4 +15,20 @@ def test_get_available_services():
 
 def test_clean_mentions():
     comment = "Hello there @[Joe Stump](pk:1)"
-    assert MessageServiceBase._clean_mentions(comment) == "Hello there Joe Stump"
+    assert MessageServiceBase.clean_mentions(comment) == "Hello there Joe Stump"
+
+def test_format_name():
+    data = {
+        'first_name': 'Julia',
+        'last_name': 'Guglia'
+    }
+
+    assert MessageServiceBase.format_name(data) == 'Julia G.'
+
+def test_format_comment():
+    comment = 'Hello'
+    assert MessageServiceBase.format_comment(comment) == comment
+
+def test_format_comment_trunc():
+    comment = 'a' * 51
+    assert MessageServiceBase.format_comment(comment)[-3:] == '...'
