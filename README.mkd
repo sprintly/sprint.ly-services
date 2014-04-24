@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/sprintly/sprint.ly-services.svg?branch=master)](https://travis-ci.org/sprintly/sprint.ly-services)
+
 ## Overview
 
 This is the home of Sprint.ly's outbound service integration. If you've ever wished Sprint.ly would send notifications to another service, you're in the right place. All of our service integrations are open source so anyone can write a hook for their favorite service.
