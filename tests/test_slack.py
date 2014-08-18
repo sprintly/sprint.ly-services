@@ -36,6 +36,7 @@ def test_get_post_data(payload):
         mock_get_attachment.return_value = {}
         post_data = srv.get_post_data(payload)
         assert post_data.has_key('attachments')
+        assert post_data.has_key('icon_url')
         mock_get_attachment.assert_called_with(payload)
 
 @pytest.mark.parametrize('payload', all_payloads)

@@ -50,7 +50,7 @@ class Service(WebHookService):
         default_data.update(attachment)
 
         return {
-            'icon_url': 'https://s3.amazonaws.com/sprintly-marketing-assets/integrations/slack-bot-icon.png'
+            'icon_url': 'https://s3.amazonaws.com/sprintly-marketing-assets/integrations/slack-bot-icon.png',
             'attachments': [default_data]
         }
 
