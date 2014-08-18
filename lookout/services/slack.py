@@ -49,7 +49,10 @@ class Service(WebHookService):
         
         default_data.update(attachment)
 
-        return {'attachments': [default_data]}
+        return {
+            'icon_url': 'https://s3.amazonaws.com/sprintly-marketing-assets/integrations/slack-bot-icon.png',
+            'attachments': [default_data]
+        }
 
     def get_attachment_color(self, item_data=None):
         """
