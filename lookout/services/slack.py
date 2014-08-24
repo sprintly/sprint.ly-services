@@ -1,5 +1,4 @@
 from lookout.services.webhook import Service as WebHookService
-from lookout.base import MessageServiceBase
 
 class Service(WebHookService):
     """
@@ -16,7 +15,7 @@ class Service(WebHookService):
         except KeyError:
             return
 
-        data = {'text': MessageServiceBase.message(payload)}
+        data = {'text': self.get_message(payload)}
 
         if options:
             data.update(options)

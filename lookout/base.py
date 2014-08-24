@@ -11,6 +11,18 @@ class ServiceBase(object):
     def send(self, payload):
         raise NotImplementedError
 
+    def get_message(self, payload):
+        """
+        Attempt to generate messages by first looking at the service object,
+        but defaulting to `MessageServiceBase`.
+        """
+        model = payload['model'].lower()
+        attr = payload['attributes']
+        method = getattr(self, model, None)
+        if method is None:
+            method = getattr(MessageServiceBase, model, lambda: None)
+        return method(attr)
+
     @property
     def name(self):
         return self.__class__.__module__.split('.')[-1]

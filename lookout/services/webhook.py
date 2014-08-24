@@ -1,5 +1,6 @@
-from lookout.base import ServiceBase
 import simplejson as json
+
+from lookout.base import ServiceBase
 import urllib2
 
 
@@ -9,8 +10,10 @@ class Service(ServiceBase):
 
     We'll hit these URLs with a POST request when a new piece of data is created
     within your Sprint.ly project. More information on what we send and in what
-    format can be found in our [WebHooks Guide](http://help.sprint.ly/knowledgebase/articles/105560-webhooks-guide).
+    format can be found in our [WebHooks Guide](http://help.sprint
+    .ly/knowledgebase/articles/105560-webhooks-guide).
     """
+
     def send(self, payload):
         try:
             urls = self.options['urls']
@@ -27,7 +30,7 @@ class Service(ServiceBase):
             'Content-Type': 'application/json',
             'Content-Length': len(payload)
         }
-        
+
         request = urllib2.Request(url, payload, headers)
         fp = urllib2.urlopen(request, timeout=2)
         fp.close()

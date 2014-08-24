@@ -2,7 +2,7 @@ import logging
 
 import pinder
 
-from lookout.base import MessageServiceBase, ServiceBase
+from lookout.base import ServiceBase
 
 
 logger = logging.getLogger(__name__)
@@ -26,7 +26,7 @@ class Service(ServiceBase):
                          self.options['room'], payload, self.options)
             return
 
-        message = MessageServiceBase.message(payload)
+        message = self.get_message(payload)
         if not message:
             return
 
