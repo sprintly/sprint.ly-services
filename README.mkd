@@ -29,7 +29,7 @@ from the project root directory.
 
 ## Payload
 
-When your `Service.send()` method is ran, Sprint.ly will pass a single argument, `payload`, to your method. This Python `dict` will have three keys in it: `product`, `attributes`, and `model`.
+When your `Service.send()` method is ran, Sprint.ly will pass a single argument, `payload`, to your method. This Python `dict` will have four keys in it: `action`, `product`, `attributes`, and `model`.
 
 * `action` (enum) The action that was performed on the given `model`. Will be one of: `created`, `updated`, or `deleted`.
 * `product` (dict) The product that the model belongs to.
