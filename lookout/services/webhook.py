@@ -1,6 +1,7 @@
-from lookout.base import ServiceBase
-import simplejson as json
 import urllib2
+import simplejson as json
+
+from lookout.base import ServiceBase
 
 
 class Service(ServiceBase):

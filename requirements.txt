@@ -6,3 +6,4 @@ py==1.4.20
 pytest==2.5.2
 requests==2.2.1
 simplejson==3.3.3
+decorator==3.4.0

@@ -1,5 +1,7 @@
 from lookout.services.webhook import Service as WebHookService
 from lookout.base import SPRINTLY_DEFAULT_COLOR, SPRINTLY_COLORS, MessageServiceBase
+from lookout.decorators import listen_to
+
 
 class Service(WebHookService):
     """
@@ -11,6 +13,7 @@ class Service(WebHookService):
     Visit the following URL for Slack configuration documentation:
     `https://my.slack.com/services/new/incoming-webhook`
     """
+    @listen_to('*.created')
     def send(self, payload):
         options = self.options.copy()
 
