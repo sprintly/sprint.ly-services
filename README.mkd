@@ -6,7 +6,7 @@ This is the home of Sprint.ly's outbound service integration. If you've ever wis
 
 ## How it Works
 
-1. A user creates a new `Item`, `Comment`, `Favorite`, or `Block` on Sprint.ly.
+1. A user creates, modifies, or deletes an `Item`, `Comment`, `Favorite`, or `Block` on Sprint.ly.
 2. Sprint.ly loads up any enabled outbound services enabled for the given product.
 3. Sprint.ly loads each `Service` class passing in any configuration options set by the user.
 4. Sprint.ly runs the `Service.send()` method passing in a `payload` Python `dict`.
@@ -31,18 +31,20 @@ from the project root directory.
 
 When your `Service.send()` method is ran, Sprint.ly will pass a single argument, `payload`, to your method. This Python `dict` will have three keys in it: `product`, `attributes`, and `model`.
 
+* `action` (enum) The action that was performed on the given `model`. Will be one of: `created`, `updated`, or `deleted`.
 * `product` (dict) The product that the model belongs to.
 * `attributes` (dict) A hash of the model's attributes.
 * `model` (enum) The name of the model. Will be one of: `Item`, `Comment`, `Favorite`, or `Block`.
 
 ## Models
 
-Currently, Sprint.ly sends out four models: `Item`, `Comment`, `Favorite`, and `Block`. **NOTE:** Remember that Sprint.ly only calls your method when a new model is being created. We do not run every update through outbound services.
+Currently, Sprint.ly sends out four models: `Item`, `Comment`, `Favorite`, and `Block`. Whenever an action is taken on Sprint.ly that creates, modifies, or deletes one of these models, an event will be sent to your service. 
 
 ### `Item`
 
-```
+```json
 {
+    "action": "created",
     "attributes": {
         "archived": false, 
         "assigned_to": {
@@ -103,8 +105,9 @@ Currently, Sprint.ly sends out four models: `Item`, `Comment`, `Favorite`, and `
 
 ### `Comment`
 
-```
+```json
 {
+    "action": "created",
     "attributes": {
         "body": "Hey guys, what's the status on this?", 
         "created_at": "2012-08-13T23:21:52+00:00", 
@@ -184,8 +187,9 @@ Currently, Sprint.ly sends out four models: `Item`, `Comment`, `Favorite`, and `
 
 ### `Favorite`
 
-```
+```json
 {
+    "action": "created",
     "attributes": {
         "created_at": "2012-08-12T23:01:33+00:00", 
         "id": 1111, 
@@ -264,8 +268,9 @@ Currently, Sprint.ly sends out four models: `Item`, `Comment`, `Favorite`, and `
 
 ### `Block`
 
-```
+```json
 {
+    "action": "created",
     "attributes": {
         "blocked": {
             "archived": false, 
