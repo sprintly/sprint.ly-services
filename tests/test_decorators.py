@@ -13,6 +13,17 @@ def test_listen_to_passes_on_events():
     assert mocked_client.called
 
 
+def test_listen_to_works_with_no_action_specified():
+    mocked_client = mock.Mock()
+
+    @listen_to('*.created')
+    def mocked_service_send(self, payload):
+        mocked_client(payload) 
+
+    mocked_service_send(None, {'model': 'Foo'})
+    assert mocked_client.called
+
+
 def test_listen_to_ignores_unspecified_events():
     mocked_client = mock.Mock()
 
