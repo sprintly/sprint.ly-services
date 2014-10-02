@@ -3,6 +3,7 @@ import logging
 import pinder
 
 from lookout.base import MessageServiceBase, ServiceBase
+from lookout.decorators import listen_to
 
 
 logger = logging.getLogger(__name__)
@@ -18,6 +19,7 @@ class Service(ServiceBase):
     2. `room` is the actual name of the room from your Campfire Lobby. **NOTE:** It is not the ID of the room.
     3. `token` is your Campfire API token. You can find this by clicking the "My info" link next to the "Settings" tab.
     """
+    @listen_to('*.created')
     def send(self, payload):
         campfire = pinder.Campfire(self.options['subdomain'], self.options['token'])
         room = campfire.find_room_by_name(self.options['room'])

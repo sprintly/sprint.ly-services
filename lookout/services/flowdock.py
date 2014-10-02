@@ -1,6 +1,8 @@
-from lookout.base import ServiceBase
-import requests
 import re
+import requests
+
+from lookout.base import ServiceBase
+from lookout.decorators import listen_to
 
 
 class Service(ServiceBase):
@@ -17,6 +19,7 @@ class Service(ServiceBase):
     def _strip(self, text):
         return self.RE_STRICT.sub('_', text)
 
+    @listen_to('*.created')
     def send(self, payload):
         if payload['model'] == 'Comment':
             subject = 'commented on %s "%s" in %s' % (

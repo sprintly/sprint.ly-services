@@ -1,6 +1,7 @@
 import requests
 
 from lookout.base import MessageServiceBase, ServiceBase
+from lookout.decorators import listen_to
 
 
 class Service(ServiceBase):
@@ -13,6 +14,7 @@ class Service(ServiceBase):
     1. `auth_token` is a valid HipChat API auth token. You can create an `auth_token` at `https://your-domain.hipchat.com/admin/api`.
     2. `room_id` is the actual name of the room from your HipChat Lobby. **NOTE:** It is not the ID of the room.
     """
+    @listen_to('*.created')
     def send(self, payload):
         message = MessageServiceBase.message(payload)
         if not message:
