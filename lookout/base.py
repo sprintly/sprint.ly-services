@@ -125,6 +125,8 @@ class MessageServiceBase(object):
         """
         Takes a dict of user data containing `first_name` and `last_name` keys and returns a formatted name like: John D.
         """
+        if not data['last_name']:
+            return data['first_name']
         return '%s %s.' % (data['first_name'], data['last_name'][0])
 
     @staticmethod
