@@ -25,6 +25,14 @@ def test_format_name():
 
     assert MessageServiceBase.format_name(data) == 'Julia G.'
 
+def test_format_name_no_last_name():
+    data = {
+        'first_name': 'Julia',
+        'last_name': ''
+    }
+
+    assert MessageServiceBase.format_name(data) == 'Julia'
+
 def test_format_comment():
     comment = 'Hello'
     assert MessageServiceBase.format_comment(comment) == comment
