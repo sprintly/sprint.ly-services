@@ -46,9 +46,8 @@ class MessageServiceBase(object):
 
     @staticmethod
     def comment(attr):
-        return '%s %s. commented "%s" on %s "%s" (#%s) %s' % (
-            attr['created_by']['first_name'],
-            attr['created_by']['last_name'][0],
+        return '%s commented "%s" on %s "%s" (#%s) %s' % (
+            MessageServiceBase.format_name(attr['created_by']),
             MessageServiceBase.format_comment(attr['body']),
             attr['item']['type'],
             attr['item']['title'],
@@ -57,9 +56,8 @@ class MessageServiceBase(object):
 
     @staticmethod
     def item(attr):
-        message = '%s %s. created the %s "%s" (#%s) %s' % (
-            attr['created_by']['first_name'],
-            attr['created_by']['last_name'][0],
+        message = '%s created the %s "%s" (#%s) %s' % (
+            MessageServiceBase.format_name(attr['created_by']),
             attr['type'],
             attr['title'],
             attr['number'],
@@ -68,17 +66,15 @@ class MessageServiceBase(object):
         if attr['assigned_to'] and \
             attr['assigned_to']['id'] != \
             attr['created_by']['id']:
-            message += ' and assigned it to %s %s.' % (
-                attr['assigned_to']['first_name'],
-                attr['assigned_to']['last_name'][0])
+            message += ' and assigned it to %s' % (
+                MessageServiceBase.format_name(attr['assigned_to']))
         return message
 
     @staticmethod
     def block(attr):
-        message = '%s %s. indicated the %s "%s" (#%s) %s is blocked on the %s ' \
+        message = '%s indicated the %s "%s" (#%s) %s is blocked on the %s ' \
                   '"%s" (#%s) %s' % (
-            attr['user']['first_name'],
-            attr['user']['last_name'][0],
+            MessageServiceBase.format_name(attr['user']),
             attr['blocked']['type'],
             attr['blocked']['title'],
             attr['blocked']['number'],
@@ -88,16 +84,14 @@ class MessageServiceBase(object):
             attr['item']['number'],
             attr['item']['short_url'])
         if attr['item']['assigned_to']:
-            message += ', which is owned by %s %s.' % (
-                attr['item']['assigned_to']['first_name'],
-                attr['item']['assigned_to']['last_name'][0])
+            message += ', which is owned by %s' % (
+                MessageServiceBase.format_name(attr['item']['assigned_to']))
         return message
 
     @staticmethod
     def favorite(attr):
-        message = '%s %s. favorited the %s "%s" (#%s) %s' % (
-            attr['user']['first_name'],
-            attr['user']['last_name'][0],
+        message = '%s favorited the %s "%s" (#%s) %s' % (
+            MessageServiceBase.format_name(attr['user']),
             attr['item']['type'],
             attr['item']['title'],
             attr['item']['number'],
@@ -106,9 +100,8 @@ class MessageServiceBase(object):
 
     @staticmethod
     def deploy(attr):
-        message = '%s %s. deployed %s items to %s.' % (
-            attr['user']['first_name'],
-            attr['user']['last_name'][0],
+        message = '%s deployed %s items to %s.' % (
+            MessageServiceBase.format_name(attr['user']),
             len(attr['items']),
             attr['environment'])
         return message
@@ -132,6 +125,8 @@ class MessageServiceBase(object):
         """
         Takes a dict of user data containing `first_name` and `last_name` keys and returns a formatted name like: John D.
         """
+        if not data['last_name']:
+            return data['first_name']
         return '%s %s.' % (data['first_name'], data['last_name'][0])
 
     @staticmethod
