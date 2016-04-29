@@ -2,7 +2,10 @@ from collections import defaultdict
 import os
 import re
 
-from django.utils.importlib import import_module
+try:
+    from django.utils.importlib import import_module
+except ImportError:
+    from importlib import import_module
 
 
 # Sprint.ly colors
