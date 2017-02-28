@@ -143,14 +143,15 @@ class Service(WebHookService):
         if item['assigned_to']:
             item_attachment['fields'].append({
                 'title': 'Assigned to',
-                'value': '%s' % MessageServiceBase.format_name(item['assigned_to']),
+                'value': '<{0}|https://sprint.ly/reports?assignee={1}>'.format(MessageServiceBase.format_name(item['assigned_to']),
+                    item['assigned_to']['id']),
                 'short': True
             })
 
         if item['status']:
             item_attachment['fields'].append({
                 'title': 'Status',
-                'value': ' '.join(item['status'].split('-')).capitalize(),
+                'value': '<{0}|https://sprint.ly/reports?status={1}>'.format(' '.join(item['status'].split('-')).capitalize(), item['status']),
                 'short': True
             })
 
@@ -160,6 +161,19 @@ class Service(WebHookService):
                 'value': item['score'],
                 'short': True
             })
+
+        if len(item['tags']):
+            item_attachment['fields'].append({
+                'title': 'Tags',
+                'value': ', '.join(['<{0}|https://sprint.ly/reports?tag={0}>'.format(tag) for tag in item['tags']]),
+                'short': True
+            })
+
+        item_attachment['fields'].append({
+            'title': 'Product',
+            'value': '<{0}|https://sprint.ly/reports?product={1}>'.format(item['product']['name'], item['product']['id']),
+            'short': True
+        })
 
         return item_attachment
 
