@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='lookout',
-    version='0.1.0',
+    version='0.1.5',
     description='A simple outbound notification service for Sprint.ly.',
     long_description='',
     keywords='sprintly, services',
