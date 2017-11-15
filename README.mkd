@@ -79,11 +79,11 @@ Currently, Sprint.ly sends out four models: `Item`, `Comment`, `Favorite`, and `
         "score": "~", 
         "short_url": "http://sprint.ly/i/1/116550/", 
         "status": "backlog", 
-        "title": "As a user, I want outbound service hooks so that I will see new items announced in Campfire or HipChat.", 
+        "title": "As a user, I want outbound service hooks so that I will see new items announced in Slack or HipChat.", 
         "type": "story", 
         "what": "outbound service hooks", 
         "who": "user", 
-        "why": "I will see new items announced in Campfire or HipChat"
+        "why": "I will see new items announced in Slack or HipChat"
     }, 
     "model": "Item", 
     "product": {
