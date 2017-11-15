@@ -13,7 +13,7 @@ setup(
     license='BSD',
     packages=find_packages(),
     zip_safe=False,
-    install_requires=['Django', 'pinder', 'simplejson', 'requests'],
+    install_requires=['Django', 'simplejson', 'requests'],
     include_package_data=True,
     classifiers=[
         "Programming Language :: Python",
